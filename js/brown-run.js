@@ -1,5 +1,5 @@
 let brownNoiseNode = null;
-let toggleButton = null;
+let toggleButton = document.querySelector(".brown-noise2");
 let audioContext = null;
 let gainNode = null;
 let filterNode = null;
@@ -51,17 +51,12 @@ async function toggleSound() {
       .connect(filterNode)
       .connect(gainNode)
       .connect(audioContext.destination);
-
-    toggleButton.innerHTML = muteIcon;
   }
+  toggleButton.innerHTML = muteIcon;
 
   isPlaying = !isPlaying;
 }
 
-document.addEventListener("DOMContentLoaded", () => {
-  toggleButton = document.querySelector(".brown-noise2");
-
-  // Display a message to ensure the user interacts with the page
-  toggleButton.addEventListener("click", toggleSound);
-  toggleSound();
-});
+// Display a message to ensure the user interacts with the page
+toggleButton.addEventListener("click", toggleSound);
+toggleButton.innerHTML = unmuteIcon;
