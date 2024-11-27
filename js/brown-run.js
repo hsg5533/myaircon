@@ -1,5 +1,5 @@
+const toggleButton = document.querySelector(".brown-noise2");
 let brownNoiseNode = null;
-let toggleButton = document.querySelector(".brown-noise2");
 let audioContext = null;
 let gainNode = null;
 let filterNode = null;
@@ -22,19 +22,15 @@ async function toggleSound() {
     audioContext = new (window.AudioContext || window.AudioContext)();
     await audioContext.audioWorklet.addModule("./js/brown.js");
   }
-
-  // Resume the AudioContext if it's suspended
   if (audioContext.state === "suspended") {
     await audioContext.resume();
   }
-
   if (isPlaying) {
     // Stop sound
     brownNoiseNode?.disconnect();
     gainNode?.disconnect();
     brownNoiseNode = null;
     gainNode = null;
-
     toggleButton.innerHTML = unmuteIcon;
   } else {
     // Start sound
@@ -46,17 +42,13 @@ async function toggleSound() {
     filterNode = audioContext.createBiquadFilter();
     filterNode.type = "lowpass";
     filterNode.frequency.value = 4000;
-
     brownNoiseNode
       .connect(filterNode)
       .connect(gainNode)
       .connect(audioContext.destination);
+    toggleButton.innerHTML = muteIcon;
   }
-  toggleButton.innerHTML = muteIcon;
-
   isPlaying = !isPlaying;
 }
-
-// Display a message to ensure the user interacts with the page
 toggleButton.addEventListener("click", toggleSound);
 toggleButton.innerHTML = unmuteIcon;
